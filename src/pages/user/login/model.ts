@@ -53,6 +53,10 @@ const Model: ModelType = {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {
             redirect = redirect.substr(urlParams.origin.length);
+            let startIndex = redirect.indexOf(IConfig['base']||'/');
+            if(startIndex >= 0) {
+              redirect = redirect.substr(startIndex);
+            }
             if (redirect.match(/^\/.*#/)) {
               redirect = redirect.substr(redirect.indexOf('#') + 1);
             }
