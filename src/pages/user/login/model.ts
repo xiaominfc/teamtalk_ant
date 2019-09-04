@@ -64,7 +64,7 @@ const Model: ModelType = {
         if (redirect) {
           yield put(routerRedux.replace(redirect || '/'));
         } else {
-          window.location.href = IConfig['base'] || '/';
+          window.location.href = '/';
         }
       }
     },
