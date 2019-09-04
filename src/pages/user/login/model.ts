@@ -53,7 +53,7 @@ const Model: ModelType = {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {
             redirect = redirect.substr(urlParams.origin.length);
-            let startIndex = redirect.indexOf(IConfig['base']||'/');
+            let startIndex = (IConfig['base']||'/').length - 1;
             if(startIndex >= 0) {
               redirect = redirect.substr(startIndex);
             }
@@ -68,7 +68,7 @@ const Model: ModelType = {
         if (redirect) {
           yield put(routerRedux.replace(redirect || '/'));
         } else {
-          window.location.href = '/';
+          window.location.href = IConfig['base']||'/';
         }
       }
     },
