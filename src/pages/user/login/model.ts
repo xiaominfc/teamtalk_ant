@@ -4,6 +4,8 @@ import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, getFakeCaptcha } from './service';
 import { getPageQuery } from './utils/utils';
 import { setAuthority } from '@/utils/authority';
+import IConfig from '../../../../config/config';
+
 
 export interface StateType {
   status?: 'ok' | 'error';
@@ -62,7 +64,7 @@ const Model: ModelType = {
         if (redirect) {
           yield put(routerRedux.replace(redirect || '/'));
         } else {
-          window.location.href = '/';
+          window.location.href = IConfig['base'] || '/';
         }
       }
     },
