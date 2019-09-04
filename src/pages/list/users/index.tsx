@@ -39,7 +39,7 @@ export interface TableListProps extends FormComponentProps {
   loading: boolean;
 }
 
-interface TableListState<T extends BaseItemInf> {
+export interface TableListState<T extends BaseItemInf> {
   modalVisible: boolean;
   updateModalVisible: boolean;
   selectedRows: T[];

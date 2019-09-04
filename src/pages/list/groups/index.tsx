@@ -9,14 +9,22 @@
 
 
 import {
-	Form, Avatar,
+	Form, Avatar, Divider,
   } from 'antd';
-import {BaseTableList, DataInf} from '../users'
+import {BaseTableList, DataInf, TableListState} from '../users'
 import { StandardTableColumnProps }from '../users/components/StandardTable';
-import { GroupItemInf,GroupData } from './data.d';
+import { GroupItemInf,GroupData, GroupUserInf } from './data.d';
 import AddOrUpdateForm from './components/AddOrUpdateForm';
+import EditGroupMemberModal from './components/EditGroupMember';
 import { connect } from 'dva';
-import React from 'react';
+import React, { Fragment } from 'react';
+import { BaseItemInf } from '../users/data.d';
+
+
+interface GroupTableListState<T extends BaseItemInf> extends TableListState<T> {
+	editGroupMemberModal:boolean;
+	groupMembers:GroupUserInf[];
+}
 
 
 const GroupListNameSpace = "listGroups";
@@ -31,6 +39,35 @@ const GroupListNameSpace = "listGroups";
 )
 class GroupTableList extends BaseTableList<GroupItemInf,GroupData> {
 	workNameSpace = GroupListNameSpace;
+
+	controlColumn:StandardTableColumnProps<GroupItemInf> = {
+		title: '操作',
+		render: (text, record) => (
+		  <Fragment>
+			<a onClick={() => {
+			  this.editOrAddRecord(record)
+			}}>编辑</a>
+			<Divider type="vertical" />
+			<a onClick={() => {
+			  this.editGroupMember(record)
+			}}>编辑群成员</a>
+			<Divider type="vertical" />
+			<a onClick={() => {
+			  this.removeRecord(record);
+			}}>移除</a>
+		  </Fragment>
+		),
+	  }
+
+	state:GroupTableListState<GroupItemInf> = {
+		modalVisible: false,
+    	updateModalVisible: false,
+    	selectedRows: [],
+    	record: {},
+		editGroupMemberModal:false,
+		groupMembers:[],
+	};
+
 	columns: StandardTableColumnProps<GroupItemInf>[] = [
 		{
 		  title: 'ID',
@@ -65,13 +102,37 @@ class GroupTableList extends BaseTableList<GroupItemInf,GroupData> {
 		return {list: data.groups ||[], pagination: data.pagination || {}};
 	}
 
+	editGroupMember = (record:GroupItemInf) => {
+		this.setState({editGroupMemberModal:true,record})
+	}
+
+	handleEditGroupMemberModalVisible = (flag?: boolean) => {
+		this.setState({
+			editGroupMemberModal: !!flag,
+		});
+	}
+
+
+
 	createForm = () => {
 		const parentMethods = {
 		  handleAction: this.handleAddOrUpdate,
 		  handleModalVisible: this.handleModalVisible,
 		};
+
+		const editGroupMemberMethods = {
+			handleAction: this.handleAddOrUpdate,
+			handleModalVisible: this.handleEditGroupMemberModalVisible,
+		  };
 		const { modalVisible, record } = this.state;
-		return (<AddOrUpdateForm {...parentMethods} modalVisible={modalVisible} record={record} />);
+		const {editGroupMemberModal} = this.state;
+
+		return (
+			<div>
+				<AddOrUpdateForm {...parentMethods} modalVisible={modalVisible} record={record} />
+				<EditGroupMemberModal {...editGroupMemberMethods} modalVisible={editGroupMemberModal} record={record} />
+			</div>
+			);
 	  }
 }
 

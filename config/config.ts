@@ -9,7 +9,7 @@ const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 
-const TTServer = "http://admin.xiaominfc.com";
+const TTServer = "http://local.xiaominfc.com";
 
 
 const plugins: IPlugin[] = [
@@ -226,6 +226,16 @@ export default {
       target: TTServer + '/group/action',
       changeOrigin: true,
       pathRewrite: { '^/api/group': '' }, 
+    },
+    '/api/groupusers':{
+      target: TTServer + '/group/getMember',
+      changeOrigin: true,
+      pathRewrite: { '^/api/groupusers': '' }, 
+    },
+    '/api/editmember':{
+      target: TTServer + '/group/editmember',
+      changeOrigin: true,
+      pathRewrite: { '^/api/editmember': '' }, 
     },
     '/api/discovery':{
       target: TTServer + '/discovery/action',

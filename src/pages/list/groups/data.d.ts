@@ -18,6 +18,12 @@ export interface GroupItemInf extends BaseItemInf{
 	type:string;
 }
 
+export interface GroupUserInf extends BaseItemInf {
+	name?:string;
+	groupId?:string;
+	userId?:string;
+} 
+
 export interface GroupData extends PageTableListData{
     groups: GroupItemInf[];
 }

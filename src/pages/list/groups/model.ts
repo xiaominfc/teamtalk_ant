@@ -15,4 +15,4 @@ import { buildModel } from '../users/model';
 
 const queryAction = new QueryAction<GroupItemInf, TableListParams>('group');
 const Model = buildModel<GroupData>(queryAction, 'listGroups');
- export default Model;
+export default Model;

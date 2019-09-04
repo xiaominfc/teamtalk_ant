@@ -79,7 +79,10 @@ npm test
     ProxyPassReverse /api/group http://local.xiaominfc.com/group/action
     ProxyPass /api/discovery http://local.xiaominfc.com/discovery/action
     ProxyPassReverse /api/discovery http://local.xiaominfc.com/discovery/action
-    
+    ProxyPass /api/groupusers http://local.xiaominfc.com/group/getMember
+    ProxyPassReverse /api/groupusers http://local.xiaominfc.com/group/getMember
+    ProxyPass /api/editmember http://local.xiaominfc.com/group/editmember
+    ProxyPassReverse /api/editmember http://local.xiaominfc.com/group/editmember
     RewriteEngine On
     RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI} !-f
     RewriteRule !/api /index.html [L]
