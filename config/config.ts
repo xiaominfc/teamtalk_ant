@@ -237,10 +237,10 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/api/editmember': '' }, 
     },
-    '/api/discovery':{
+    '/api/discoverys':{
       target: TTServer + '/discovery/action',
       changeOrigin: true,
-      pathRewrite: { '^/api/discovery': '' }, 
+      pathRewrite: { '^/api/discoverys': '' }, 
     }
 
   }
