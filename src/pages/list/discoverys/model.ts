@@ -12,6 +12,6 @@ import { DiscoveryItemInf, DiscoveryData } from './data.d';
 import { TableListParams } from '../users/data';
 import { buildModel } from '../users/model';
 
-const queryAction = new QueryAction<DiscoveryItemInf, TableListParams>('discovery');
+const queryAction = new QueryAction<DiscoveryItemInf, TableListParams>('discoverys');
 const Model = buildModel<DiscoveryData>(queryAction, 'listDiscoverys');
 export default Model;
