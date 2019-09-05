@@ -44,6 +44,7 @@ class DisconveryTableList extends BaseTableList<DiscoveryItemInf, DiscoveryData>
 		{
 			title: 'url',
 			dataIndex: 'itemUrl',
+			render:value => <a href={value} >{value}</a>,
 		},
 		this.updatedColumn,
     	this.controlColumn,
