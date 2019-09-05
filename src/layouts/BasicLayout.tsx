@@ -20,6 +20,7 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState, Dispatch } from '@/models/connect';
 import logo from '../assets/logo.png';
 import { getAuthority } from '@/utils/authority';
+import IConfig from '../../config/config';
 
 
 export interface BasicLayoutProps extends ProLayoutProps {
@@ -62,7 +63,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         callback: (response:{name:string}) => {
           const currentAuthor = getAuthority();
           if (response.name != currentAuthor) {
-            window.location.href = '/user/login';
+            window.location.href = (IConfig['base']||'/')  + 'user/login';
           } else {
             console.log('same user');
           }
