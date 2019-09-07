@@ -2,6 +2,8 @@ import { Upload, Icon, message } from 'antd';
 import React, { Component } from 'react';
 
 
+import IMServer from '../../../../../config/imserver';
+
 function getBase64(img:any, callback:Function) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -64,7 +66,7 @@ class UploadAvatar extends Component<UploadAvatarPros> {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="http://msfs.xiaominfc.com/"
+        action={IMServer.msfs_server}
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
