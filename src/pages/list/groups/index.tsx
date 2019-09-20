@@ -85,12 +85,12 @@ class GroupTableList extends BaseTableList<GroupItemInf,GroupData> {
 		{
 			title: '群类型',
 			dataIndex: 'type',
-		render: (val: string) => {
-			if(val == '1') {
-				return (<span>普通群</span>);
-			}
-			return (<span>临时群</span>);
-		},
+			render: (val: string) => {
+				if (val == '1') {
+					return (<span>普通群</span>);
+				}
+				return (<span>临时群</span>);
+			},
 		},
 		this.statusColumn,
 		this.updatedColumn,

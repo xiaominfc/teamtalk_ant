@@ -111,6 +111,13 @@ export default {
           component: './Welcome',
         },
         {
+          authority: ['admin'],
+          name: '管理员账号管理',
+          path: '/list/admins',
+          icon: 'user',
+          component: './list/admins',
+        },
+        {
           authority: ['admin', 'user'],
           name: '账号管理',
           path: '/list/users',
@@ -241,8 +248,11 @@ export default {
       target: TTServer + '/discovery/action',
       changeOrigin: true,
       pathRewrite: { '^/api/discoverys': '' }, 
+    },
+    '/api/admin': {
+      target: TTServer,
+      changeOrigin: true,
     }
-
   }
 
   /*

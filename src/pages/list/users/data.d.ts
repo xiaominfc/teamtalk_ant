@@ -1,9 +1,4 @@
-
 import { extend } from 'umi-request';
-
-
-
-
 
 export interface BaseItemInf {
   id:string;

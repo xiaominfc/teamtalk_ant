@@ -30,8 +30,8 @@ const getValue = (obj: { [x: string]: string[] }) =>
     .join(',');
 
 type IStatusMapType = 'success' | 'error';
-const statusMap = ['success', , 'error'];
-const status = ['正常', , '异常'];
+const statusMap = ['success', 'error'];
+const status = ['正常', '异常'];
 const statusTexts = status.map((value, index) => ({ text: value, value: `${index}` }));
 
 export interface TableListProps extends FormComponentProps {

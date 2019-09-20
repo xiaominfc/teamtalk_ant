@@ -60,9 +60,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
-        callback: (response:{name:string}) => {
+        callback: (response:{authority:string}) => {
           const currentAuthor = getAuthority();
-          if (response.name != currentAuthor) {
+          if (response.authority != currentAuthor) {
             window.location.href = (IConfig['base']||'/')  + 'user/login';
           } else {
             console.log('same user');
