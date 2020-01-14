@@ -8,10 +8,7 @@ const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
-
-const TTServer = "http://local.xiaominfc.com";
-
-
+const TTServer = 'http://local.xiaominfc.com';
 const plugins: IPlugin[] = [
   [
     'umi-plugin-react',
@@ -95,6 +92,11 @@ export default {
           path: '/user/login',
           component: './user/login',
         },
+        {
+          name: 'register',
+          path: '/user/register',
+          component: './user/register',
+        },
       ],
     },
     {
@@ -105,10 +107,10 @@ export default {
       routes: [
         {
           authority: ['admin', 'user'],
-          path: '/',
-          name: 'welcome',
-          icon: 'smile',
-          component: './Welcome',
+          name: '项目管理',
+          path: '/list/projects',
+          icon: 'project',
+          component: './list/projects',
         },
         {
           authority: ['admin'],
@@ -202,66 +204,90 @@ export default {
     basePath: '/',
   },
   chainWebpack: webpackPlugin,
-
-  proxy:{
+  proxy: {
     '/api/login/account': {
-      target:TTServer + '/auth/userlogin',
+      target: TTServer + '/auth/userlogin',
       changeOrigin: true,
-      pathRewrite: { '^/api/login/account': '' },
+      pathRewrite: {
+        '^/api/login/account': '',
+      },
     },
     '/api/logout': {
-      target:TTServer + '/auth/userlogout',
+      target: TTServer + '/auth/userlogout',
       changeOrigin: true,
-      pathRewrite: { '^/api/logout': '' },
+      pathRewrite: {
+        '^/api/logout': '',
+      },
     },
     '/api/currentUser': {
       target: TTServer + '/auth/currentUser',
       changeOrigin: true,
-      pathRewrite: { '^/api/currentUser': '' },
+      pathRewrite: {
+        '^/api/currentUser': '',
+      },
     },
-    '/api/user':{
+    '/api/user': {
       target: TTServer + '/user/action',
       changeOrigin: true,
-      pathRewrite: { '^/api/user': '' }, 
+      pathRewrite: {
+        '^/api/user': '',
+      },
     },
-    '/api/depart':{
+    '/api/depart': {
       target: TTServer + '/depart/action',
       changeOrigin: true,
-      pathRewrite: { '^/api/depart': '' }, 
+      pathRewrite: {
+        '^/api/depart': '',
+      },
     },
-    '/api/group':{
+    '/api/group': {
       target: TTServer + '/group/action',
       changeOrigin: true,
-      pathRewrite: { '^/api/group': '' }, 
+      pathRewrite: {
+        '^/api/group': '',
+      },
     },
-    '/api/groupusers':{
+    '/api/groupusers': {
       target: TTServer + '/group/getMember',
       changeOrigin: true,
-      pathRewrite: { '^/api/groupusers': '' }, 
+      pathRewrite: {
+        '^/api/groupusers': '',
+      },
     },
-    '/api/editmember':{
+    '/api/editmember': {
       target: TTServer + '/group/editmember',
       changeOrigin: true,
-      pathRewrite: { '^/api/editmember': '' }, 
+      pathRewrite: {
+        '^/api/editmember': '',
+      },
     },
-    '/api/discoverys':{
+    '/api/discoverys': {
       target: TTServer + '/discovery/action',
       changeOrigin: true,
-      pathRewrite: { '^/api/discoverys': '' }, 
+      pathRewrite: {
+        '^/api/discoverys': '',
+      },
     },
     '/api/admin': {
       target: TTServer,
       changeOrigin: true,
-    }
-  }
-
-  /*
-  proxy: {
-    '/server/api/': {
-      target: 'https://preview.pro.ant.design/',
-      changeOrigin: true,
-      pathRewrite: { '^/server': '' },
     },
+    '/api/project': {
+      target: TTServer,
+      changeOrigin: true,
+    },
+    '/api/register': {
+      target: TTServer,
+      changeOrigin: true,
+    },
+    /*
+    proxy: {
+      '/server/api/': {
+        target: 'https://preview.pro.ant.design/',
+        changeOrigin: true,
+        pathRewrite: { '^/server': '' },
+      },
+    },
+    */
   },
-  */
 } as IConfig;
