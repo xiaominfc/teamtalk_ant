@@ -92,6 +92,14 @@ npm test
 
 ```
 
+### 指定block
+
+```
+umi block list
+
+```
+
+
 local.xiaominfc.com 换成你自己的
 
 
