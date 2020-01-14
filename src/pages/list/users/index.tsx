@@ -71,7 +71,7 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
   }
 
   controlColumn:StandardTableColumnProps<T> = {
-    title: '操作',
+   title: '操作',
     render: (text, record) => (
       <Fragment>
         <a onClick={() => {
