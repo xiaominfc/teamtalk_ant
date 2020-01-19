@@ -99,12 +99,62 @@ export default {
         },
       ],
     },
+		{
+			path:'/project/:pid',
+			component: '../layouts/BasicLayout',
+			Routes: ['src/pages/Authorized'],
+      authority: ['admin', 'user'],
+      routes:[
+        {
+          authority: ['admin', 'user'],
+          name: '项目管理',
+          path: '/list/projects',
+          icon: 'project',
+          component: './list/projects',
+        },
+        {
+          authority: ['admin', 'user'],
+          name: '账号管理',
+          path: '/project/:pid/users',
+          icon: 'user',
+          component: './list/users',
+        },
+        {
+          authority: ['admin', 'user'],
+          name: '组织架构',
+          path: '/project/:pid/departs',
+          icon: 'apartment',
+          component: './list/departs',
+        },
+        {
+          authority: ['admin', 'user'],
+          name: '群组管理',
+          path: '/project/:pid/groups',
+          icon: 'solution',
+          component: './list/groups',
+        },
+        {
+          authority: ['admin', 'user'],
+          name: '发现管理',
+          path: '/project/:pid/discoverys',
+          icon: 'paper-clip',
+          component: './list/discoverys',
+        },
+      ]
+		},
     {
       path: '/',
       component: '../layouts/BasicLayout',
       Routes: ['src/pages/Authorized'],
       authority: ['admin', 'user'],
       routes: [
+        {
+          authority: ['admin', 'user'],
+          name: '介绍',
+          path: '/',
+          icon: 'home',
+          component: './Welcome',
+        },
         {
           authority: ['admin', 'user'],
           name: '项目管理',
@@ -118,34 +168,6 @@ export default {
           path: '/list/admins',
           icon: 'user',
           component: './list/admins',
-        },
-        {
-          authority: ['admin', 'user'],
-          name: '账号管理',
-          path: '/list/users',
-          icon: 'user',
-          component: './list/users',
-        },
-        {
-          authority: ['admin', 'user'],
-          name: '组织架构',
-          path: '/list/departs',
-          icon: 'apartment',
-          component: './list/departs',
-        },
-        {
-          authority: ['admin', 'user'],
-          name: '群组管理',
-          path: '/list/groups',
-          icon: 'solution',
-          component: './list/groups',
-        },
-        {
-          authority: ['admin', 'user'],
-          name: '发现管理',
-          path: '/list/discoverys',
-          icon: 'paper-clip',
-          component: './list/discoverys',
         },
         {
           component: './404',

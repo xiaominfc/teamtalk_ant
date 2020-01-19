@@ -21,6 +21,7 @@ import { ConnectState, Dispatch } from '@/models/connect';
 import logo from '../assets/logo.png';
 import { getAuthority } from '@/utils/authority';
 import IConfig from '../../config/config';
+import { match } from 'dva/router';
 
 
 export interface BasicLayoutProps extends ProLayoutProps {
@@ -36,25 +37,40 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
   };
 };
 
-/**
- * use Authorized check all menu item
- */
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
+
+function formatMenuItem(item:MenuDataItem,_match:match){
+  if(item.path.startsWith(_match.path)) {
+      for(const key in _match.params){
+        item.path = item.path.replace(":" + key,_match.params[key])
+      }
+  }
+  return item
+}
+
+const footerRender = () => (<DefaultFooter copyright="xiaominfc.com" links={[{ key: 'xiaominfc', title: 'xiaominfc', href: 'https://github.com/xiaominfc/' }]} />);
+
+const BasicLayout: React.FC<BasicLayoutProps> = props => {
+  /**
+   * constructor
+   */
+
+
+  const { dispatch, children, settings, match } = props;
+  
+  /**
+   * use Authorized check all menu item
+  */
+  const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
   menuList.map(item => {
+    if(match){
+      item = formatMenuItem(item,match);
+    }
     const localItem = {
       ...item,
       children: item.children ? menuDataRender(item.children) : [],
     };
     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
   });
-
-const footerRender = () => (<DefaultFooter copyright="xiaominfc.com" links={[{ key: 'xiaominfc', title: 'xiaominfc', href: 'https://github.com/xiaominfc/' }]} />);
-
-const BasicLayout: React.FC<BasicLayoutProps> = props => {
-  const { dispatch, children, settings } = props;
-  /**
-   * constructor
-   */
 
   useEffect(() => {
     if (dispatch) {

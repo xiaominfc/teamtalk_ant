@@ -22,6 +22,7 @@ import { StateType } from './model';
 import AddOrUpdateForm from './components/AddOrUpdateForm';
 import StandardTable, { StandardTableColumnProps } from './components/StandardTable';
 import { UserItemInf, TableListPagination, TableListParams, BaseItemInf, UserData, AnswerResult,PageTableListData } from './data.d';
+
 import styles from './style.less';
 
 const getValue = (obj: { [x: string]: string[] }) =>
@@ -54,7 +55,6 @@ export interface DataInf<T> extends TableListProps{
 
 export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableListData> extends Component<DataInf<D>> {
   workNameSpace:string = '';
-
   statusColumn:StandardTableColumnProps<T> = {
     title: '状态',
     dataIndex: 'status',
@@ -97,6 +97,8 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
   handleMenuClick = (e: { key: string }) => {
 		const { dispatch } = this.props;
 		const { selectedRows } = this.state;
+    
+    const extends_p = this.props['match']['params']||{};
 
 		if (!selectedRows) return;
 		switch (e.key) {
@@ -104,7 +106,8 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
 			dispatch({
 			  type: `${this.workNameSpace}/${e.key}`,
 			  payload: {
-				id: selectedRows.map(row => row.id),
+        id: selectedRows.map(row => row.id),
+        ...extends_p
 			  },
 			  callback: () => {
 				this.setState({
@@ -118,6 +121,14 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
 		}
   };
 
+  fetchData = (params:{}) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: `${this.workNameSpace}/fetch`,
+      payload: {...params,...this.props['match']['params']},
+    });
+  }
+
   currentPagination = ():Partial<TableListPagination> => {
     const data = this.getListData();
     return data.pagination || {};
@@ -125,15 +136,11 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
 
   reloadCurrent=() => {
     const pagination = this.currentPagination();
-    const { dispatch } = this.props;
     const params: Partial<TableListParams> = {
       currentPage: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: `${this.workNameSpace}/fetch`,
-      payload: params,
-    });
+    this.fetchData(params);
   }
 
   getListData=():Partial<D> => {
@@ -147,12 +154,14 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
   handleAddOrUpdate = (fields:T) => {
     const { dispatch } = this.props;
     const pagination = this.currentPagination();
+    const extends_p = this.props['match']['params']||{};
     
     if (fields.id == null) {
       dispatch({
         type: `${this.workNameSpace}/add`,
         payload: {
           record: fields,
+          ...extends_p
         },
         callback: (response:AnswerResult) => {
           if (response.status == 'ok') {
@@ -170,6 +179,7 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
         type: `${this.workNameSpace}/update`,
         payload: {
           record: fields,
+          ...extends_p
         },
         callback: (response:AnswerResult) => {
           if (response.status == 'ok') {
@@ -190,23 +200,25 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
     this.handleModalVisible(true);
   }
 
-  removeRecord = (record:T) => {
+  removeRecord = (record: T) => {
     const { dispatch } = this.props;
-            dispatch({
-              type: `${this.workNameSpace}/remove`,
-              payload: {
-                id: record.id,
-              },
-              callback: (response:AnswerResult) => {
-                if(response.status ==  'failed') {
-                  message.warn(response.msg);
-                }else {
-                  this.setState({
+    const extends_p = this.props['match']['params'] || {};
+    dispatch({
+      type: `${this.workNameSpace}/remove`,
+      payload: {
+        id: record.id,
+        ...extends_p
+      },
+      callback: (response: AnswerResult) => {
+        if (response.status == 'failed') {
+          message.warn(response.msg);
+        } else {
+          this.setState({
 
-                  });
-                  this.reloadCurrent();
-                }
-              },
+          });
+          this.reloadCurrent();
+        }
+      },
     });
   }
 
@@ -218,10 +230,7 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
 
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: `${this.workNameSpace}/fetch`,
-    });
+    this.fetchData({});
   }
 
   handleStandardTableChange = (
@@ -229,7 +238,6 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
     filtersArg: Record<keyof T, string[]>,
     sorter: SorterResult<T>,
   ) => {
-    const { dispatch } = this.props;
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
       const newObj = { ...obj };
       newObj[key] = getValue(filtersArg[key]);
@@ -244,11 +252,7 @@ export abstract class BaseTableList<T extends BaseItemInf, D extends PageTableLi
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
-
-    dispatch({
-      type: `${this.workNameSpace}/fetch`,
-      payload: params,
-    });
+    this.fetchData(params);
   };
 
 
