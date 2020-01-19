@@ -115,6 +115,7 @@ class GroupTableList extends BaseTableList<GroupItemInf,GroupData> {
 
 
 	createForm = () => {
+		
 		const parentMethods = {
 		  handleAction: this.handleAddOrUpdate,
 		  handleModalVisible: this.handleModalVisible,
@@ -130,7 +131,7 @@ class GroupTableList extends BaseTableList<GroupItemInf,GroupData> {
 		return (
 			<div>
 				<AddOrUpdateForm {...parentMethods} modalVisible={modalVisible} record={record} />
-				<EditGroupMemberModal {...editGroupMemberMethods} modalVisible={editGroupMemberModal} record={record} />
+				<EditGroupMemberModal {...editGroupMemberMethods} modalVisible={editGroupMemberModal} record={record} match={this.props['match']} />
 			</div>
 			);
 	  }

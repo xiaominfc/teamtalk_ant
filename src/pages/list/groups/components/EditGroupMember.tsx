@@ -14,6 +14,7 @@ interface EditGroupMemberModalProps {
   handleAction: (fieldsValue: GroupItemInf) => void;
   handleModalVisible: () => void;
   record:Partial<GroupItemInf>;
+  match:{};
 }
 
 interface EditGroupMemberModalState {
@@ -68,20 +69,23 @@ class EditGroupMemberModal extends Component<EditGroupMemberModalProps>{
 
 
 	componentDidUpdate(prevProps:EditGroupMemberModalProps) {
-		const {record} = this.props;
+		const {record,match} = this.props;
+		
+		const extends_p = match['params'] || {};
 		if (record.id !== prevProps.record.id) {
-			request('/api/groupusers?id='+ record.id).then((response)=>{
+			request('/api/groupusers',{params:{...extends_p,id:record.id}}).then((response)=>{
 				this.setState({groupMembers:response['users']});
 			});
-
-			request('/api/user').then((response)=>{
+			request('/api/user',{params:{...extends_p}}).then((response)=>{
 				this.setState({userData:response});
 			});
 		}
 	}
 
 	onPageChage = (page: number, pageSize?: number) =>{
-		request('/api/user',{params:{currentPage:page,pageSize}}).then((response)=>{
+		const {match} = this.props;
+		const extends_p = match['params'] || {};
+		request('/api/user',{params:{currentPage:page,pageSize,...extends_p}}).then((response)=>{
 			this.setState({userData:response});
 		});
 	}
