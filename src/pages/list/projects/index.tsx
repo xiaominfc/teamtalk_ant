@@ -70,6 +70,14 @@ class ProjectTableList extends BaseTableList<ProjectItemInf, ProjectData> {
 			dataIndex: 'name',
 		},
 		{
+			title: 'APPKEY',
+			dataIndex: 'appkey'
+		},
+		{
+			title: 'APPSecret',
+			dataIndex: 'appsecret'
+		},
+		{
 			title: '类型',
 			dataIndex: 'type',
 			render: (val: string) => {
